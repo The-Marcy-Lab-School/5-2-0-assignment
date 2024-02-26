@@ -58,6 +58,32 @@ describe(testSuiteName, () => {
     scoreCounter.correct(expect); // DO NOT TOUCH
   });
 
+  it('Rectangle - uses inheritance properly', () => {
+    const rect = new Rectangle(10, 5);
+
+    // The length of a function is the number of parameters
+    // Rectangle constructor should only have 2 parameters
+    expect(rect.constructor.length).toBe(2);
+
+    // Rectangle constructor should use super
+    expect(rect.constructor.toString().includes('super')).toBeTruthy();
+
+    // do some string manipulation to grab the arguments you invoke
+    // super with. In the third step, we remove the beginning and ending
+    // parentheses, remove white spaces, and then split on the commas.
+    const superCallText = rect.constructor.toString().match(/super\(.*\)/g)[0];
+    const argsListText = superCallText.match(/\(.*\)/g)[0];
+    const argValues = argsListText.replaceAll(" ", "").slice(1, -1).split(',')
+
+    // check to make sure that the first and third arguments are the same
+    expect(argValues[0]).toEqual(argValues[2]);
+
+    // check to make sure that the second and fourth arguments are the same
+    expect(argValues[1]).toEqual(argValues[3]);
+
+    scoreCounter.correct(expect); // DO NOT TOUCH
+  });
+
   it('Square - creates a new square instance', () => {
     const square1 = new Square(10);
     expect(square1.side1).toBe(10);
@@ -88,6 +114,26 @@ describe(testSuiteName, () => {
     expect(square.getPerimeter).toBe(rect.getPerimeter);
     expect(square.getPerimeter).toBe(quad.getPerimeter);
     expect(square.getArea).toBe(rect.getArea);
+
+    scoreCounter.correct(expect); // DO NOT TOUCH
+  });
+
+  it('Square - uses inheritance properly', () => {
+    const s = new Square(10);
+
+    // a Square should only need 1 parameter
+    expect(s.constructor.length).toBe(1);
+
+    // the Square constructor should use super() to invoke the Rectangle constructor
+    expect(s.constructor.toString().includes('super')).toBeTruthy();
+
+    // string manipulation to extract arguments passed to super()
+    const superCallText = s.constructor.toString().match(/super\(.*\)/g)[0];
+    const argsListText = superCallText.match(/\(.*\)/g)[0];
+    const argValues = argsListText.replaceAll(" ", "").slice(1, -1).split(',')
+
+    // check to make sure that both of the arguments are the same
+    expect(argValues[0]).toEqual(argValues[1]);
 
     scoreCounter.correct(expect); // DO NOT TOUCH
   });
